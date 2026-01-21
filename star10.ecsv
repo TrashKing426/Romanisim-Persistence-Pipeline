@@ -1,0 +1,14 @@
+# %ECSV 1.0
+# ---
+# datatype:
+# - {name: ra, datatype: float64}
+# - {name: dec, datatype: float64}
+# - {name: type, datatype: string}
+# - {name: n, datatype: int64}
+# - {name: half_light_radius, datatype: int64}
+# - {name: pa, datatype: int64}
+# - {name: ba, datatype: int64}
+# - {name: F146, datatype: float64}
+# schema: astropy-2.0
+ra dec type n half_light_radius pa ba F146
+79.922971 30.034266 PSF -1 -1 -1 -1 0.0001
