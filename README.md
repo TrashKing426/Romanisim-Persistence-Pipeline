@@ -17,7 +17,6 @@ The pipeline simulates a time series of exposures of a single point source, runs
 - [Output Files](#output-files)
 - [Analysis Cells](#analysis-cells)
 - [Key Functions and Classes](#key-functions-and-classes)
-- [Photometric Calibration](#photometric-calibration)
 - [Known Issues and Notes](#known-issues-and-notes)
 
 ---
@@ -241,30 +240,6 @@ l1_path = run_romanisim_simulationapi(
 
 ### `track_multiple_pixels_all_resultants` (Cell 35)
 Records DN values for a list of pixels across all resultants and appends to the per-resultant CSV files.
-
----
-
-## Photometric Calibration
-
-Magnitudes are computed using the AB zero point method:
-
-```
-m_AB = ZERO_POINT_AB - 2.5 × log10(aperture_sum_DN)
-```
-
-where `ZERO_POINT_AB = 28.08` for the F146 filter.
-
-Flux in Janskys uses an alternative path through `photfnu`:
-
-```
-flux_Jy = (DN / resultant_time) × photfnu
-```
-
-where `photfnu = photmjsr × 1e6 × pixel_area = 0.240393 × 1e6 × 2.8083e-13`.
-
-The two paths are used in different parts of the notebook:
-- **Aperture photometry** (main pipeline) uses `ZERO_POINT_AB`
-- **Ensemble/pixel tracking analysis** uses `photfnu`
 
 ---
 
