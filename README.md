@@ -77,11 +77,6 @@ export CRDS_CONTEXT=roman_0171.pmap
 
 ## Installation
 
-```bash
-git clone https://github.com/your-org/roman-persistence-pipeline.git
-cd roman-persistence-pipeline
-```
-
 It is recommended to use the same conda environment used for `romanisim` development. Refer to the [romanisim installation guide](https://romanisim.readthedocs.io) for setup instructions.
 
 ---
