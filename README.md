@@ -217,12 +217,6 @@ After the main loop completes, the following analysis cells can be run independe
 ### `RomanL1ResultantAnalyzer` (Cell 19)
 Loads a Roman L1 ASDF file and extracts ramp data, MA table structure, and timing.
 
-```python
-analyzer = RomanL1ResultantAnalyzer('path/to/l1.asdf')
-analyzer.load_l1_file()
-analyzer.reference_pixel_correction()  # subtracts 4-pixel border median
-```
-
 Key attributes after loading:
 - `analyzer.ramp_data` — shape `(n_resultants, 4088, 4088)`
 - `analyzer.resultant_times` — cumulative time per resultant in seconds
@@ -244,40 +238,9 @@ l1_path = run_romanisim_simulationapi(
 )
 ```
 
-### `select_ensemble_pixels` (Cell 11)
-Returns a list of pixel dicts within a square box around the star.
-
-```python
-pixels = select_ensemble_pixels(star_y=2000, star_x=2000, max_radius=30)
-# Returns list of {'name': 'psf_wing_000000', 'y': ..., 'x': ..., 'description': ...}
-```
 
 ### `track_multiple_pixels_all_resultants` (Cell 35)
 Records DN values for a list of pixels across all resultants and appends to the per-resultant CSV files.
-
-### `plot_uncertainty_by_steps` (Cell 31)
-Plots flux and magnitude uncertainty as a function of exposure number.
-
-```python
-summary_df = plot_uncertainty_by_steps(
-    'star_mag_18.00/analysis_results/Photometry_Mag_18.00.csv',
-    mag=18,
-    plot_style='side_by_side',  # or 'dual_axis'
-    output_dir='star_mag_18.00/analysis_results'
-)
-```
-
-### `plot_single_pixel_resultant1_variance` (Cell 27)
-Post-pipeline analysis plot for a single tracked pixel: DN, flux (Jy), and magnitude time series with distributions.
-
-```python
-plot_single_pixel_resultant1_variance(
-    'star_mag_18.00/analysis_results/single_pixel_resultant1.csv'
-)
-```
-
-### `process_resultant_with_distance_ordering` (Cell 52)
-Converts per-resultant pixel CSV files into wide-format flux matrices suitable for ensemble analysis.
 
 ---
 
@@ -307,8 +270,6 @@ The two paths are used in different parts of the notebook:
 
 ## Known Issues and Notes
 
-- **`STAR_X` / `STAR_Y`**: The delta-mag analysis cell (Cell 49) references these variables. They are not defined globally — add `STAR_X, STAR_Y = source_x, source_y` at the top of that cell before running.
 - **Saturation threshold**: The pipeline first attempts to retrieve the per-pixel saturation threshold from CRDS. If CRDS lookup fails, it falls back to 55,000 DN.
-- **MA Table 1002**: This is a custom read pattern not in the standard `romanisim` table set. It is injected directly into the metadata before simulation. The read pattern embedded in `run_romanisim_simulationapi` (Cell 17) has a slightly different grouping than the one defined in Cell 7 — verify these match if you change the MA table.
+- **MA Table 1002**: This is a custom read pattern not in the standard `romanisim` table set. It is injected directly into the metadata before simulation.
 - **Processing time**: At ~3.5 minutes per exposure, the full 108-exposure run takes approximately 6 hours. The checkpoint system allows safe interruption and resumption.
-- **Disk space**: Each ASDF file is several hundred MB. The pipeline retains only the current L1 and current L2 at any time; all other intermediate files are deleted after each iteration.
